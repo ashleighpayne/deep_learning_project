@@ -31,34 +31,6 @@ function getModel() {
   }));
   //Shape of 238 x 133 x 18
 
-  model.add(tf.layers.conv2d({
-    kernalSize: 24,
-    filters: 4,
-    strides: 3,
-    activation: 'relu',
-    kernalInitializer: 'varianceScaling',
-    padding: 'same'
-  }));
-
-  model.add(tf.layers.pooling2d({
-    poolSize: [2,2],
-    strides: [2,2]
-  }));
-
-  model.add(tf.layers.conv2d({
-    kernalSize: 8,
-    filters: 2,
-    strides: 1,
-    activation: 'relu',
-    kernalInitializer: 'varianceScaling',
-    padding: 'same'
-  }));
-
-  model.add(tf.layers.pooling2d({
-    poolSize: [2,2],
-    strides: [2,2]
-  }));
-
   //Flatten and run through 2 fully connected layers to generate output
   model.add(tf.layers.flatten());
   model.add(tf.layers.dense({
@@ -79,4 +51,45 @@ function getModel() {
   });
 
   return model;
+}
+
+async function train(model, data) {
+
+  //Used to plot the results
+  const metric = ['loss', 'val_loss', 'acc', 'val_acc'];
+  const container = {
+    name: 'Model Training', styles: {height: '1000px'}
+  };
+  const fitCallbacks = tfvis.show.fitCallbacks(container, metrics);
+
+  //Need to adjust these we will probably have to overfit the data
+  const BATCH_SIZE = 1
+  const TRAIN_DATA_SIZE = 1
+  const TEST_DATA_SIZE = 1
+
+  //Splits data into test and train
+  const [trainX, trainY] = tf.tidy(() => {
+    const d = data.nextTestBatch(TRAIN_DATA_SIZE);
+    return [
+      d.xs.reshape([TRAIN_DATA_SIZE, 960, 540, 9]),
+      d.labels
+    ];
+  });
+
+  //Tidy executes a method and deletes all tensors used execpt the final ones
+  const [testX, testY] = tf.tidy(() => {
+    const d = data.nextTestBatch(TEST_DATA_SIZE);
+    return [
+      d.xs.reshape([TEST_DATA_SIZE, 960, 540, 9]),
+      d.labels
+    ];
+  });
+
+  return model.fit(trainX, trainY, {
+    batchSize: BATCH_SIZE,
+    validationData: [testX, testY],
+    epochs: 10,
+    shuffle: true,
+    callbacks: fitCallbacks
+  });
 }
