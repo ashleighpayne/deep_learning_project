@@ -4,7 +4,7 @@ require('@tensorflow/tfjs-node');
 /*
 Simple test of building a basic convolutional network
 */
-function getModel() {
+modeule.exports.getModel = function() {
 
   const model = tf.sequential();
 
@@ -51,9 +51,9 @@ function getModel() {
   });
 
   return model;
-}
+};
 
-async function train(model, data) {
+module.exports.train() = async function(model, data) {
 
   //Used to plot the results
   const metric = ['loss', 'val_loss', 'acc', 'val_acc'];
@@ -92,4 +92,4 @@ async function train(model, data) {
     shuffle: true,
     callbacks: fitCallbacks
   });
-}
+};

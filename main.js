@@ -3,7 +3,10 @@ COPIED FROM THE TUTORIAL
 THIS PULLS IMAGES TO SEE IF THE DATA WAS LOADED CORRECTLY
 */
 
+const tf = require('@tensorflow/tfjs');
+require('@tensorflow/tfjs-node');
 import {MnistData} from './data.js';
+var model = require('./model.js');
 
 async function showExamples(data) {
   // Create a container in the visor
@@ -38,6 +41,10 @@ async function run() {
   const data = new MnistData();
   await data.load();
   await showExamples(data);
+  const cnn = model.getModel();
+  tfvis.show.modelSummary({name: 'Model Architecture'}, model);
+  await model.train(cnn, data);
+
 }
 
 document.addEventListener('DOMContentLoaded', run);
