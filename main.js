@@ -3,9 +3,11 @@ COPIED FROM THE TUTORIAL
 THIS PULLS IMAGES TO SEE IF THE DATA WAS LOADED CORRECTLY
 */
 
+// I need to run set TF_CPP_MIN_LOG_LEVEL=2 in my terminal for it to work
+
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
-import {MnistData} from './data.js';
+//import {MnistData} from './data.js';
 var model = require('./model.js');
 
 async function showExamples(data) {
@@ -38,7 +40,7 @@ async function showExamples(data) {
 }
 
 async function run() {
-  const data = new MnistData();
+  //const data = new MnistData();
   await data.load();
   await showExamples(data);
   const cnn = model.getModel();
@@ -47,22 +49,4 @@ async function run() {
 
 }
 
-document.addEventListener('DOMContentLoaded', run);
-
-function getFrameData(video, canvas, width, height) {
-  if (video.paused || video.ended) return false;
-  // Time in milliseconds for interval to take each from from video feed
-  let interval = 400;
-
-  canvas.drawImage(video, 0, 0, width, height);
-
-  // extracts the fram data from the video feed
-  let frame = canvas.getImageData(0, 0, width, height)
-
-  // Puts the extracted frame onto the webpage, don't need this for final product
-  canvas.putImageData(frame, 0, 0);
-
-  // Calls the function again every time interval
-  setTimeout(getFrameData, interval, video, canvas, width, height);
-
-}
+//document.addEventListener('DOMContentLoaded', run);
