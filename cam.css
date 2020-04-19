@@ -1,6 +1,37 @@
-#player {
+/* #player {
         position: absolute;
-        top: 50%;
+        top: 30%;
         left: 50%;
         margin: -180px 0 0 -240px;
     }
+
+#bg-button {
+    position: absolute;
+    top: 35%;
+    left: 40%
+} */
+
+.video-player {
+    position: absolute;
+    top: 10%;
+    left: 34%;
+}
+
+#c {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.player-buttons {
+    position: relative;
+    left: 35%;
+    top: 20px;
+}
+
+#countdown {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    top: 20px;
+}

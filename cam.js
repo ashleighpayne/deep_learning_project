@@ -31,3 +31,32 @@ function draw(v, c, w, h) {
     c.putImageData(frame, 0, 0);
     setTimeout(draw, 400, v, c, w, h);
 }
+
+function countdown() {
+    
+    var timeleft = 3;
+    document.getElementById("countdown").textContent = timeleft;
+    var downloadTimer = setInterval(function () {
+        timeleft--;
+        
+        if (timeleft == 0) {
+            document.getElementById("countdown").textContent = "Finished";
+        }
+        else {
+            document.getElementById("countdown").textContent = timeleft;
+        }
+        
+        
+        
+        if (timeleft <= 0)
+            clearInterval(downloadTimer);
+    }, 1000);
+
+    
+    
+}
+
+function countdown1(count) {
+    document.getElementById("countdown").innerHTML = "Get Ready!" + count;
+}
+

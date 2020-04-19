@@ -5,18 +5,18 @@
     <title>In Too Deep</title>
 
     <!-- Import TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script> -->
     <!-- Import tfjs-vis -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script> -->
 
     <!-- Import the data file -->
-    <script src="data.js" type="module"></script>
+    <!-- <script src="data.js" type="module"></script> -->
 
     <!-- Import the model file -->
-    <script src="model.js" type="module"></script>
+    <!-- <script src="model.js" type="module"></script> -->
   
     <!-- Import the main script file -->
-    <script src="main.js" type="module"></script>
+    <!-- <script src="main.js" type="module"></script> -->
 
     <script src="cam.js"></script>
     <link rel="stylesheet" href="cam.css">
@@ -24,9 +24,19 @@
 
   </head>
   <body>
-
-    <video id="player" controls></video>
     <canvas id="c" width="2000" height="2000"></canvas>
+    <div class="video-player">
+      <video id="player" controls></video>
+      <div class="player-buttons">
+        <button id="bg-button">Capture Background</button>
+        <button id="gesture-button" onclick="countdown()">Capture Gesture</button>
+      </div>
+      <p id="countdown"></p>
+      
+      
+    </div>
+    
+    
 
   </body>
 </html>
