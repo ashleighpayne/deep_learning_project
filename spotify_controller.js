@@ -35,3 +35,8 @@ function skip() {
 function playPrev() {
   spotifyApi.skipToPrevious();
 }
+
+function shuffle() {
+  spotifyApi.setShuffle()
+
+}
