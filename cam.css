@@ -1,26 +1,37 @@
-/* #player {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        margin: -180px 0 0 -240px;
-    }
+#player:focus {
+    outline: none !important;
+    border-color: limegreen;
+    box-shadow: 0 0 10px limegreen;
+}
 
-#bg-button {
+/* #bg-button {
     position: absolute;
     top: 35%;
     left: 40%
 } */
 
+body {
+    background-color: #7f7f7f;
+    font-family: proxima_nova, "Helvetica Neue", Helvetica,Arial, sans-serif
+}
+
+.spotify {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    height: 100px;
+}
+
 #prediction {
-    position: relative;
-    left: 20%;
-    right: 50%;
+    
+    color: white;
+    font-size: large;
 }
 
 .video-player {
-    position: absolute;
+    /* position: absolute;
     top: 10%;
-    left: 34%;
+    left: 34%; */
 }
 
 #c {
@@ -29,15 +40,10 @@
     left: 0px;
 }
 
-.player-buttons {
-    position: relative;
-    left: 35%;
-    top: 20px;
-}
+
 
 #countdown {
-    position: relative;
-    left: 50%;
-    right: 50%;
-    top: 20px;
+    color: white;
+    font-size: large;
 }
+
