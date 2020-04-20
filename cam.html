@@ -18,14 +18,20 @@
     <!-- Import the main script file -->
     <!-- <script src="main.js" type="module"></script> -->
 
-    <script src="cam.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    
     <link rel="stylesheet" href="cam.css">
 
 
   </head>
   <body>
+    <script src="cam.js"></script>
     <canvas id="c" width="2000" height="2000"></canvas>
+    
     <div class="video-player">
+      <p id="prediction"></p>
       <video id="player" controls></video>
       <div class="player-buttons">
         <button id="bg-button">Capture Background</button>

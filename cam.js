@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
     var player = document.getElementById('player');
     var canvas = document.getElementById('c');
@@ -7,8 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         player.srcObject = stream;
     };
 
-    console.log(player.width);
-    console.log(player.height)
+    
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(handleSuccess)
 
@@ -18,16 +19,24 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.height = ch;
 
     player.addEventListener('play', function () {
-        draw(this, context, 200, 200);
+        draw(this, context, 224, 224);
     }, false);
 
 }, false);
 
-function draw(v, c, w, h) {
+async function draw(v, c, w, h) {
     if (v.paused || v.ended) return false;
     c.drawImage(v, 0, 0, w, h);
     let frame = c.getImageData(0, 0, w, h);
-    console.log(frame);
+    //console.log(frame);
+    let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([224,224]).toFloat();
+    const model = await mobilenet.load();
+    const prediction = await model.classify(img);
+    let prob = prediction[0]["probability"];
+    prob = Math.floor(prob * 100);
+    let className = prediction[0]["className"];
+    console.log(prediction[0]);
+    document.getElementById("prediction").textContent = className + " with probability of " + prob + "%";
     c.putImageData(frame, 0, 0);
     setTimeout(draw, 400, v, c, w, h);
 }
@@ -35,7 +44,7 @@ function draw(v, c, w, h) {
 function countdown() {
     
     var timeleft = 3;
-    document.getElementById("countdown").textContent = timeleft;
+    document.getElementById("countdown").textContent = "Get Ready";
     var downloadTimer = setInterval(function () {
         timeleft--;
         
@@ -43,7 +52,7 @@ function countdown() {
             document.getElementById("countdown").textContent = "Finished";
         }
         else {
-            document.getElementById("countdown").textContent = timeleft;
+            document.getElementById("countdown").textContent = "Capturing " + timeleft;
         }
         
         

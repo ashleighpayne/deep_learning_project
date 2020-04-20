@@ -11,6 +11,12 @@
     left: 40%
 } */
 
+#prediction {
+    position: relative;
+    left: 20%;
+    right: 50%;
+}
+
 .video-player {
     position: absolute;
     top: 10%;
