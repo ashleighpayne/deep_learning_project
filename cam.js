@@ -1,6 +1,9 @@
+
+
 var className = "";
 var prob = 0;
 var bgImageData;
+var dim = 240;
 
 document.addEventListener('DOMContentLoaded', function () {
     var player = document.getElementById('player');
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.height = ch;
 
     player.addEventListener('play', function () {
-        draw(this, context, 224, 224);
+        draw(this, context, dim, dim);
     }, false);
 
     // document.getElementById("gesture-button").addEventListener("click", function() {
@@ -44,20 +47,22 @@ async function draw(v, c, w, h) {
         console.log("For loop");
     }
 
-    let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([224,224]).toFloat();
+    let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([dim,dim]).toFloat();
     
 
     // Load model and predict what img is
-    const model = await mobilenet.load();
-    const prediction = await model.classify(img);
+    const model = await tf.loadLayersModel('http://127.0.0.1:8080/model.json');
+    let img_reshape = img.reshape([-1, dim, dim, 3]);
+    const prediction = await model.predict(img_reshape);
+    console.log(prediction);
 
-    // Takes the probability from the prediction and converts it to percentage
-    prob = prediction[0]["probability"];
-    prob = Math.floor(prob * 100);
+    // // Takes the probability from the prediction and converts it to percentage
+    // prob = prediction[0]["probability"];
+    // prob = Math.floor(prob * 100);
 
-    // Takes the top class name from prediction
-    className = prediction[0]["className"];
-    document.getElementById("prediction").textContent = className + " with probability of " + prob + "%";
+    // // Takes the top class name from prediction
+    // className = prediction[0]["className"];
+    // document.getElementById("prediction").textContent = className + " with probability of " + prob + "%";
 
     // Displays the image that is being input to the model on the top left of the screen
     c.putImageData(frame, 0, 0);
