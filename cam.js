@@ -1,4 +1,6 @@
-
+var className = "";
+var prob = 0;
+var bgImageData;
 
 document.addEventListener('DOMContentLoaded', function () {
     var player = document.getElementById('player');
@@ -35,6 +37,13 @@ async function draw(v, c, w, h) {
 
     // Gets the image from the webcam and converts it to an input for the tensorflow model
     let frame = c.getImageData(0, 0, w, h);
+
+    // subtract the background
+    for (let i=0; i<frame.length; i++) {
+        frame.data[i] -= bgImageData.data[i];
+        console.log("For loop");
+    }
+
     let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([224,224]).toFloat();
     
 
@@ -43,11 +52,11 @@ async function draw(v, c, w, h) {
     const prediction = await model.classify(img);
 
     // Takes the probability from the prediction and converts it to percentage
-    let prob = prediction[0]["probability"];
+    prob = prediction[0]["probability"];
     prob = Math.floor(prob * 100);
 
     // Takes the top class name from prediction
-    let className = prediction[0]["className"];
+    className = prediction[0]["className"];
     document.getElementById("prediction").textContent = className + " with probability of " + prob + "%";
 
     // Displays the image that is being input to the model on the top left of the screen
@@ -65,28 +74,44 @@ function capture() {
     var context = canvas.getContext('2d');
     var timeleft = 4;
     var preds = [];
-    var pred;
+    var probs = [];
     document.getElementById("countdown").textContent = "Get Ready";
     var captureFrames = setInterval(function () {
         timeleft--;
         
         if (timeleft == 0) {
             document.getElementById("countdown").textContent = "Finished";
+            console.log(preds);
         }
         else {
             document.getElementById("countdown").textContent = "Capturing " + timeleft;
-            pred = document.getElementById("prediction").textContent;
-            preds.push(pred);
-            console.log(preds);
+            preds.push(className);
+            probs.push(prob);
+            
+            
+
         }
         
         
         
         if (timeleft <= 0)
-            
+            //console.log(preds);
             clearInterval(captureFrames);
     }, 600);
     
+    
+    
+}
+
+// Sets the bgImageData variable
+function captureBackground() {
+    var player = document.getElementById('player');
+    var canvas = document.getElementById('c');
+    var context = canvas.getContext('2d');
+
+    context.drawImage(player, 0, 0, 224, 224);
+    bgImageData = context.getImageData(0, 0, 224, 224);
+
     
     
 }
