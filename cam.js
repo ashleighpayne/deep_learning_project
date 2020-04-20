@@ -24,20 +24,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 }, false);
 
+// Takes the webcam image and compresses it to 224x224, then predicts what the image is.
 async function draw(v, c, w, h) {
     if (v.paused || v.ended) return false;
     c.drawImage(v, 0, 0, w, h);
+
+    // Gets the image from the webcam and converts it to an input for the tensorflow model
     let frame = c.getImageData(0, 0, w, h);
-    //console.log(frame);
     let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([224,224]).toFloat();
+
+    // Load model and predict what img is
     const model = await mobilenet.load();
     const prediction = await model.classify(img);
+
+    // Takes the probability from the prediction and converts it to percentage
     let prob = prediction[0]["probability"];
     prob = Math.floor(prob * 100);
+
+    // Takes the top class name from prediction
     let className = prediction[0]["className"];
-    console.log(prediction[0]);
     document.getElementById("prediction").textContent = className + " with probability of " + prob + "%";
+
+    // Displays the image that is being input to the model on the top left of the screen
     c.putImageData(frame, 0, 0);
+
+    // Calls the function again after certain amount of time (in ms)
     setTimeout(draw, 400, v, c, w, h);
 }
 
