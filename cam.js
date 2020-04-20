@@ -27,9 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         draw(this, context, dim, dim);
     }, false);
 
-    // document.getElementById("gesture-button").addEventListener("click", function() {
-    //     draw2(player, context, 224, 224);
-    // });
+    
 
 }, false);
 
@@ -42,10 +40,10 @@ async function draw(v, c, w, h) {
     let frame = c.getImageData(0, 0, w, h);
 
     // subtract the background
-    for (let i=0; i<frame.length; i++) {
-        frame.data[i] -= bgImageData.data[i];
-        console.log("For loop");
-    }
+    // for (let i=0; i<frame.length; i++) {
+    //     frame.data[i] -= bgImageData.data[i];
+    //     console.log("For loop");
+    // }
 
     let img = tf.browser.fromPixels(frame).resizeNearestNeighbor([dim,dim]).toFloat();
     
@@ -53,8 +51,8 @@ async function draw(v, c, w, h) {
     // Load model and predict what img is
     const model = await tf.loadLayersModel('http://127.0.0.1:8080/model.json');
     let img_reshape = img.reshape([-1, dim, dim, 3]);
-    const prediction = await model.predict(img_reshape);
-    console.log(prediction);
+    const prediction = await model.predict(img_reshape).argMax([-1]);
+    console.log(prediction.print());
 
     // // Takes the probability from the prediction and converts it to percentage
     // prob = prediction[0]["probability"];
